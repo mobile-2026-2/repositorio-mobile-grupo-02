@@ -1,51 +1,51 @@
-import { Ionicons } from "@expo/vector-icons"; // importa o conjunto de ícones
-import { Tabs } from "expo-router";
-
-export default function TabsLayout() {
-  // cria o layout das abas
+import { useEffect } from "react";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import {
+  useFonts,
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from "@expo-google-fonts/poppins";
+import {
+  Newsreader_400Regular,
+  Newsreader_700Bold,
+} from "@expo-google-fonts/newsreader"
+import {
+  RobotoMono_400Regular,
+  RobotoMono_700Bold,
+} from "@expo-google-fonts/roboto-mono"
+ 
+// Mantem a splash screen visivel enquanto a fonte carrega
+SplashScreen.preventAutoHideAsync();
+ 
+export default function RootLayout() {
+  const [fontsLoaded] = useFonts({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
+    Newsreader_400Regular,
+    Newsreader_700Bold,
+    RobotoMono_400Regular,
+    RobotoMono_700Bold,
+  });
+ 
+  useEffect(() => {
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+ 
+  if (!fontsLoaded) {
+    // Enquanto a fonte nao carrega, nao renderiza nada (splash continua na tela)
+    return null;
+  }
+ 
   return (
-    <Tabs
+    <Stack
       screenOptions={{
-        headerShown: false, // esconde o cabeçalho padrão
+        headerShown: false,
       }}
-    >
-      <Tabs.Screen
-        name="index" // rota da tela inicial
-        options={{
-          title: "Início", // texto exibido na aba
-          tabBarIcon: (
-            { color, size }, // define o ícone da aba
-          ) => (
-            <Ionicons name="home-outline" size={size} color={color} /> // ícone de início
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="calendario" // rota da tela de calendário
-        options={{
-          title: "Calendário", // texto exibido na aba
-          tabBarIcon: (
-            { color, size }, // define o ícone da aba
-          ) => (
-            <Ionicons name="calendar-outline" size={size} color={color} /> // ícone de calendário
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="configuracoes" // rota da tela de configurações
-        options={{
-          title: "Configurações", // texto exibido na aba
-          tabBarIcon: (
-            { color, size }, // define o ícone da aba
-          ) => (
-            <Ionicons name="settings-outline" size={size} color={color} /> // ícone de configurações
-          ),
-        }}
-      />
-    </Tabs>
+    />
   );
 }
-
-
