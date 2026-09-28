@@ -22,9 +22,21 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="calendario" // rota da tela de calendário
+        name="explorar" // rota da tela inicial
         options={{
-          title: "Calendário", // texto exibido na aba
+          title: "Explorar", // texto exibido na aba
+          tabBarIcon: (
+            { color, size }, // define o ícone da aba
+          ) => (
+            <Ionicons name="search-outline" size={size} color={color} /> // ícone de busca
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="Agendamentos" // rota da tela de Agendementos
+        options={{
+          title: "Agendamentos", // texto exibido na aba
           tabBarIcon: (
             { color, size }, // define o ícone da aba
           ) => (
@@ -34,13 +46,13 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
-        name="configuracoes" // rota da tela de configurações
+        name="Perfil" // rota da tela de perfil
         options={{
-          title: "Configurações", // texto exibido na aba
+          title: "Perfil", // texto exibido na aba
           tabBarIcon: (
             { color, size }, // define o ícone da aba
           ) => (
-            <Ionicons name="settings-outline" size={size} color={color} /> // ícone de configurações
+            <Ionicons name="person-outline" size={size} color={color} /> // ícone de perfil
           ),
         }}
       />
