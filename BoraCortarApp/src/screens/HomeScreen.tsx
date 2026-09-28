@@ -11,7 +11,7 @@ import { HorizontalList } from "@/components/home/HorizontalList";
 import { BarbeariaCard } from "@/components/home/BarbeariaCard";
 import { ServicoCard } from "@/components/home/ServicoCard";
 import { useHomeData } from "@/hooks/home/useHomeDate";
-import { homeScreenStyles as styles } from "@/styles/home/homeScreen.styles";
+import { homeScreenStyles as styles } from "@/styles/home/HomeScreen.styles";
 
 export default function HomeScreen() {
   const router = useRouter();
