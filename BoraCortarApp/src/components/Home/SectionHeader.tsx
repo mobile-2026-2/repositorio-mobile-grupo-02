@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, Text, View } from "react-native";
-import { sectionHeaderStyles as styles } from "@/styles/home/sectionHeader.styles";
+import { sectionHeaderStyles as styles } from "@/styles/Home/sectionHeader.styles";
 
 type Props = {
   titulo: string;

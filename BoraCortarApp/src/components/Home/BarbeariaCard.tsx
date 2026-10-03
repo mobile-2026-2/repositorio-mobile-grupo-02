@@ -2,7 +2,7 @@ import React from "react";
 import { Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/theme";
-import { barbeariaCardStyles as styles } from "@/styles/home/barbeariaCard.styles";
+import { barbeariaCardStyles as styles } from "@/styles/Home/barbeariaCard.styles";
 import { Barbearia } from "@/types";
 import { formatarDistancia, formatarNota } from "@/utils/formatters";
 

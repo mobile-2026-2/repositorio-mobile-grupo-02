@@ -1,4 +1,4 @@
-import { BARBEARIAS_MOCK, SERVICOS_MOCK } from "@/constants/home/mockData";
+import { BARBEARIAS_MOCK, SERVICOS_MOCK } from "@/constants/Home/mockData";
 import { Barbearia, Servico } from "../../types";
 
 type HomeData = {

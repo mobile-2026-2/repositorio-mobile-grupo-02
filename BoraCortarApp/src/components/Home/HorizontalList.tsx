@@ -1,6 +1,6 @@
 import React from "react";
 import { FlatList, ListRenderItem, View } from "react-native";
-import { horizontalListStyles as styles } from "@/styles/home/horizontalList.styles";
+import { horizontalListStyles as styles } from "@/styles/Home/horizontalList.styles";
 
 type Props<T> = {
   data: T[];

@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/theme";
-import { searchBarStyles as styles } from "@/styles/home/searchBar.styles";
+import { searchBarStyles as styles } from "@/styles/Home/searchBar.styles";
 
 type Props = {
   value?: string;

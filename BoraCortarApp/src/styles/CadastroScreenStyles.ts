@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
- 
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -7,11 +7,24 @@ export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     paddingHorizontal: 24,
-    paddingTop: 40,
+    position: "relative",
   },
-  header: {
-    marginBottom: 32,
+  scrollContent: {
+    flexGrow: 1,
   },
+  topBlock: {
+    paddingTop: 20,
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  header: {},
   title: {
     fontSize: 28,
     fontWeight: "700",
@@ -22,19 +35,26 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     color: "rgba(255,255,255,0.7)",
   },
-  form: {
+  centerBlock: {
+    flex: 1,
+    justifyContent: "flex-start",
+    marginTop: 40, 
+    gap: 16,      
+  },
+  bottomBlock: {
     gap: 14,
+    paddingBottom: 24,
+    marginTop: 24,
   },
   link: {
-    color: "#FFFFFF",
+    color: "rgba(255,255,255,0.7)",
     fontSize: 14,
     textAlign: "center",
     marginTop: 12,
   },
-  linkSecondary: {
-    color: "rgba(255,255,255,0.6)",
-    fontSize: 14,
-    textAlign: "center",
-    marginTop: 8,
+  linkHighlight: {
+    color: "#FFFFFF",
+    fontWeight: "700",
+    textDecorationLine: "underline",
   },
 });

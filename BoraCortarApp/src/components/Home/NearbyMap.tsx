@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import { Ionicons } from "@expo/vector-icons";
-import { REGIAO_INICIAL } from "@/constants/home/map";
+import { REGIAO_INICIAL } from "@/constants/Home/map";
 import { colors } from "@/constants/theme";
-import { nearbyMapStyles as styles } from "@/styles/home/nearbyMap.styles";
+import { nearbyMapStyles as styles } from "@/styles/Home/nearbyMap.styles";
 import { Barbearia } from "@/types";
 
 type Props = {

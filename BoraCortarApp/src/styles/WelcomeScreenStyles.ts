@@ -39,6 +39,6 @@ export const styles = StyleSheet.create({
   },
   buttonBlock: {
     gap: 14,
-    marginTop: 180,
+    marginTop: 130,
   },
 });

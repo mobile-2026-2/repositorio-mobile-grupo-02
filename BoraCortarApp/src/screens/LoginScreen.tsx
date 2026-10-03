@@ -1,7 +1,18 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  StatusBar,
+  ImageBackground,
+  StyleSheet,
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import AppButton from "@/components/AppButton";
 import AppTextInput from "@/components/AppTextInput";
@@ -13,47 +24,81 @@ export default function LoginScreen() {
   const [senha, setSenha] = useState("");
  
   return (
-    <LinearGradient colors={["#1A1A1A", "#0D0D0D", "#000000"]} style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        Platform.OS === "web" && ({ minHeight: "100vh" } as any),
+      ]}
+    >
+      <ImageBackground
+        source={require("../../assets/images/FundoBarbearia2.jpeg")}
+        style={StyleSheet.absoluteFill}
+        resizeMode="cover"
+      />
+ 
+      <LinearGradient
+        colors={["rgba(10,10,10,0.5)", "rgba(10,10,10,0.9)"]}
+        style={StyleSheet.absoluteFill}
+      />
+ 
       <StatusBar barStyle="light-content" />
  
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
       <SafeAreaView style={styles.safeArea}>
-        <View style={styles.header}>
-          <Text style={styles.title}>Entrar</Text>
-          <Text style={styles.subtitle}>Acesse sua conta BarberPro</Text>
-        </View>
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.topBlock}>
+            <Pressable style={styles.backButton} onPress={() => router.push("/(public)/welcome")}>
+              <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+            </Pressable>
  
-        <View style={styles.form}>
-          <AppTextInput
-            placeholder="E-mail"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={email}
-            onChangeText={setEmail}
-          />
+            <View style={styles.header}>
+              <Text style={styles.title}>Entrar</Text>
+              <Text style={styles.subtitle}>Acesse sua conta BoraCortar</Text>
+            </View>
+          </View>
  
-          <AppTextInput
-            placeholder="Senha"
-            secureTextEntry
-            value={senha}
-            onChangeText={setSenha}
-          />
+          <View style={styles.centerBlock}>
+            <AppTextInput
+              placeholder="E-mail"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              value={email}
+              onChangeText={setEmail}
+            />
  
-          <AppButton
-            label="Entrar"
-            onPress={() => {
-              // TODO: chamar a API/autenticacao aqui
-            }}
-          />
+            <AppTextInput
+              placeholder="Senha"
+              secureTextEntry
+              value={senha}
+              onChangeText={setSenha}
+            />
+          </View>
  
-          <Pressable onPress={() => router.push("/(public)/cadastro")}>
-            <Text style={styles.link}>Nao tem conta? Criar conta</Text>
-          </Pressable>
+          <View style={styles.bottomBlock}>
+            <AppButton
+              label="Entrar"
+              onPress={() => {
+                router.push("/(private)/(tabs)");
+              }}
+            />
  
-          <Pressable onPress={() => router.back()}>
-            <Text style={styles.linkSecondary}>Voltar</Text>
-          </Pressable>
-        </View>
+            <Pressable onPress={() => router.push("/(public)/cadastro")}>
+              <Text style={styles.link}>
+                Nao tem conta?{" "}
+                <Text style={styles.linkHighlight}>Criar conta</Text>
+              </Text>
+            </Pressable>
+          </View>
+        </ScrollView>
       </SafeAreaView>
-    </LinearGradient>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
