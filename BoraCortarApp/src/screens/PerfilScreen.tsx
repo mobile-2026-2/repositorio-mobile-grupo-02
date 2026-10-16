@@ -1,4 +1,11 @@
-import React, { useEffect, useState } from "react";
+import AppButton from "@/components/BarbeariaDetalhes/AppButton";
+import { useAuth } from "@/contexts/AuthContext";
+import { buscarPerfil, logoutUsuario } from "@/services/authService";
+import type { UsuarioDoc } from "@/services/database.types";
+import { formatarCelular, formatarCpf } from "@/utils/validators";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -9,13 +16,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import AppButton from "@/components/AppButton";
-import { useAuth } from "@/contexts/AuthContext";
-import { buscarPerfil, logoutUsuario } from "@/services/authService";
-import type { UsuarioDoc } from "@/services/database.types";
-import { formatarCelular, formatarCpf } from "@/utils/validators";
  
 export default function PerfilScreen() {
   const router = useRouter();

@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-
+ 
 import { HomeHeader } from "../components/Home/HomeHeader";
 import { SearchBar } from "@/components/Home/SearchBar";
 import { SectionHeader } from "@/components/Home/SectionHeader";
@@ -13,15 +13,15 @@ import { ServicoCard } from "@/components/Home/ServicoCard";
 import { useHomeData } from "@/hooks/Home/useHomeDate";
 import { homeScreenStyles as styles } from "@/styles/Home/HomeScreen.styles";
 import { useAuth } from "@/contexts/AuthContext";
-
+ 
 export default function HomeScreen() {
   const router = useRouter();
   const { user } = useAuth();
   const { barbearias, servicos } = useHomeData();
-
+ 
   // Primeiro nome de quem logou (displayName foi salvo no cadastro)
-  const nomeUsuario = user?.displayName?.split(" ")[0] ?? "";   
-
+  const nomeUsuario = user?.displayName?.split(" ")[0] ?? "";
+ 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
       <ScrollView
@@ -30,21 +30,26 @@ export default function HomeScreen() {
       >
         <HomeHeader nomeUsuario={nomeUsuario} />
         <SearchBar />
-
+ 
         <SectionHeader
           titulo="Próximas de você"
           acaoLabel="Ver todas"
           onAcaoPress={() => router.push("/(private)/(tabs)/Explorar")}
         />
         <NearbyMap barbearias={barbearias} />
-
+ 
         <SectionHeader titulo="Barbearias em destaque" />
         <HorizontalList
           data={barbearias}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <BarbeariaCard barbearia={item} />}
+          renderItem={({ item }) => (
+            <BarbeariaCard
+              barbearia={item}
+              onPress={(b) => router.push(`/(private)/barbearia/${b.id}`)}
+            />
+          )}
         />
-
+ 
         <SectionHeader titulo="Serviços populares" />
         <HorizontalList
           data={servicos}

@@ -1,5 +1,5 @@
-import AppButton from "@/components/AppButton";
-import AppTextInput from "@/components/AppTextInput";
+import AppButton from "@/components/BarbeariaDetalhes/AppButton";
+import AppTextInput from "@/components/BarbeariaDetalhes/AppTextInput";
 import { cadastrarUsuario, traduzirErro } from "@/services/authService";
 import { styles } from "@/styles/CadastroScreenStyles";
 import {

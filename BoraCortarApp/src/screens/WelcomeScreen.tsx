@@ -1,10 +1,9 @@
-import React from "react";
-import { View, Text, StatusBar, Image, ImageBackground, StyleSheet, Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import AppButton from "@/components/BarbeariaDetalhes/AppButton";
+import { styles } from "@/styles/WelcomeScreenStyles";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
-import AppButton from "@/components/AppButton";
-import { styles } from "@/styles/WelcomeScreenStyles";
+import { Dimensions, Image, ImageBackground, StatusBar, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
  
 const { height } = Dimensions.get("window");
  

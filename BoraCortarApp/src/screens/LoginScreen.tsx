@@ -1,24 +1,24 @@
-import React, { useState } from "react";
+import AppButton from "@/components/BarbeariaDetalhes/AppButton";
+import AppTextInput from "@/components/BarbeariaDetalhes/AppTextInput";
+import { loginUsuario, traduzirErro } from "@/services/authService";
+import { styles } from "@/styles/LoginScreenStyles";
+import { validarEmail } from "@/utils/validators";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
-  View,
-  Text,
-  Pressable,
-  StatusBar,
   ImageBackground,
-  StyleSheet,
-  Platform,
   KeyboardAvoidingView,
+  Platform,
+  Pressable,
   ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
-import AppButton from "@/components/AppButton";
-import AppTextInput from "@/components/AppTextInput";
-import { loginUsuario, traduzirErro } from "@/services/authService";
-import { validarEmail } from "@/utils/validators";
-import { styles } from "@/styles/LoginScreenStyles";
  
 export default function LoginScreen() {
   const router = useRouter();

@@ -8,6 +8,8 @@ export type Barbearia = {
   fechaAs: string;
   latitude: number;
   longitude: number;
+  foto?: number; // imagem do projeto: require("...")
+  fotoUrl?: string; // imagem da internet / Firebase
 };
 
 export type Servico = {

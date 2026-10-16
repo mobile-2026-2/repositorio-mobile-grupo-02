@@ -1,5 +1,6 @@
-import React from "react";
-import { Pressable, Text, View } from "react-native";
+import React, { useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/theme";
 import { barbeariaCardStyles as styles } from "@/styles/Home/barbeariaCard.styles";
@@ -12,10 +13,26 @@ type Props = {
 };
 
 export function BarbeariaCard({ barbearia, onPress }: Props) {
+  const [erroImagem, setErroImagem] = useState(false);
+
+  // Aceita imagem local (foto) ou da internet (fotoUrl).
+  const fonte = barbearia.foto ?? (barbearia.fotoUrl ? { uri: barbearia.fotoUrl } : null);
+  const mostrarImagem = fonte !== null && !erroImagem;
+
   return (
     <Pressable style={styles.container} onPress={() => onPress?.(barbearia)}>
-      <View style={styles.foto}>
-        <Ionicons name="storefront-outline" size={36} color={colors.iconMuted} />
+      <View style={[styles.foto, { overflow: "hidden" }]}>
+        {mostrarImagem ? (
+          <Image
+            source={fonte}
+            style={StyleSheet.absoluteFill}
+            contentFit="cover"
+            transition={200}
+            onError={() => setErroImagem(true)}
+          />
+        ) : (
+          <Ionicons name="storefront-outline" size={36} color={colors.iconMuted} />
+        )}
       </View>
 
       <View style={styles.info}>
