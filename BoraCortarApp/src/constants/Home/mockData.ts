@@ -9,7 +9,7 @@ export const BARBEARIAS_MOCK: Barbearia[] = [
     fechaAs: "20:00",
     latitude: -22.7645,
     longitude: -43.3995,
-    foto: require("../../../assets/images/old-school-barber.jpg"),
+    foto: require("../../../assets/images/barbearias/old-school-barber.jpg"),
   },
   {
     id: "2",
@@ -19,7 +19,7 @@ export const BARBEARIAS_MOCK: Barbearia[] = [
     fechaAs: "21:00",
     latitude: -22.7601,
     longitude: -43.3948,
-    foto: require("../../../assets/images/kings-barbershop.webp"), // imagem da internet
+    foto: require("../../../assets/images/barbearias/kings-barbershop.webp"), // imagem da internet
   },
   {
     id: "3",
@@ -29,7 +29,7 @@ export const BARBEARIAS_MOCK: Barbearia[] = [
     fechaAs: "19:00",
     latitude: -22.7688,
     longitude: -43.3902,
-    foto: require("../../../assets/images/barbeirosSA.jpg"),
+    foto: require("../../../assets/images/barbearias/barbeirosSA.jpg"),
   },
 ];
 

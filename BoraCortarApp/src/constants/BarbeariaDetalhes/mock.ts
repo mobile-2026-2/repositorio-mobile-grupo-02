@@ -17,6 +17,8 @@ export const DETALHES_MOCK: Record<string, DetalhesBarbearia> = {
       { dia: "Sábado", horario: "09:00 - 18:00" },
       { dia: "Domingo", horario: "Fechado" },
     ],
+    capa: require("../../../assets/images/barbearias/capa-old-school.jpg"),
+    logo: require("../../../assets/images/barbearias/old-school-barber.jpg"),
     // capa: require("../../../assets/images/barbearias/old-school-capa.jpg"),
     // logo: require("../../../assets/images/barbearias/old-school-logo.png"),
   },
@@ -30,6 +32,8 @@ export const DETALHES_MOCK: Record<string, DetalhesBarbearia> = {
       { dia: "Sábado", horario: "10:00 - 19:00" },
       { dia: "Domingo", horario: "Fechado" },
     ],
+    capa: require("../../../assets/images/barbearias/kings-barbershop.webp"),
+    logo: require("../../../assets/images/barbearias/kings-barbershop-logo.jpg")
   },
   "3": {
     telefone: "(21) 99999-0003",
@@ -40,6 +44,8 @@ export const DETALHES_MOCK: Record<string, DetalhesBarbearia> = {
       { dia: "Segunda a sábado", horario: "09:00 - 19:00" },
       { dia: "Domingo", horario: "Fechado" },
     ],
+    capa: require("../../../assets/images/barbearias/barbeirosSA.jpg"),
+    logo: require("../../../assets/images/barbearias/barbeirosSA-logo.jpg")
   },
 };
 
