@@ -10,11 +10,12 @@ import {
 import {
   Newsreader_400Regular,
   Newsreader_700Bold,
-} from "@expo-google-fonts/newsreader"
+} from "@expo-google-fonts/newsreader";
 import {
   RobotoMono_400Regular,
   RobotoMono_700Bold,
-} from "@expo-google-fonts/roboto-mono"
+} from "@expo-google-fonts/roboto-mono";
+import { AuthProvider } from "@/contexts/AuthContext";
  
 // Mantem a splash screen visivel enquanto a fonte carrega
 SplashScreen.preventAutoHideAsync();
@@ -42,10 +43,12 @@ export default function RootLayout() {
   }
  
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-      }}
-    />
+    <AuthProvider>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+        }}
+      />
+    </AuthProvider>
   );
 }

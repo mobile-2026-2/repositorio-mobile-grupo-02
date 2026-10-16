@@ -57,4 +57,12 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
     textDecorationLine: "underline",
   },
+
+  errorText: {
+  color: "#FF6B6B",
+  fontSize: 14,
+  textAlign: "center",
+  marginBottom: 12,
+},
+
 });

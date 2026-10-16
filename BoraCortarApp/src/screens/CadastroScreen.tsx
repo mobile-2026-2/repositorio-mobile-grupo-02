@@ -1,68 +1,70 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  StatusBar,
-  ImageBackground,
-  StyleSheet,
-  Platform,
-  KeyboardAvoidingView,
-  ScrollView,
-  Alert,
-} from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
 import AppButton from "@/components/AppButton";
 import AppTextInput from "@/components/AppTextInput";
+import { cadastrarUsuario, traduzirErro } from "@/services/authService";
 import { styles } from "@/styles/CadastroScreenStyles";
-
-const maskCpf = (value: string) => {
-  const d = value.replace(/\D/g, "").slice(0, 11);
-  return d
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d)/, "$1.$2")
-    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-};
-
-const maskCelular = (value: string) => {
-  const d = value.replace(/\D/g, "").slice(0, 11);
-  if (d.length <= 2) return d;
-  if (d.length <= 7) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
-  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-};
+import {
+  formatarCelular,
+  formatarCpf,
+  validarCelular,
+  validarCpf,
+  validarEmail,
+} from "@/utils/validators";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import {
+  ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function CadastroScreen() {
   const router = useRouter();
   const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
   const [cpf, setCpf] = useState("");
   const [celular, setCelular] = useState("");
-  const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
 
-  const handleCadastro = () => {
-    if (!nome || !cpf || !celular || !email || !senha || !confirmarSenha) {
-      Alert.alert("Atenção", "Preencha todos os campos.");
-      return;
-    }
-    if (cpf.replace(/\D/g, "").length !== 11) {
-      Alert.alert("Atenção", "CPF inválido.");
-      return;
-    }
-    if (celular.replace(/\D/g, "").length < 10) {
-      Alert.alert("Atenção", "Número de celular inválido.");
-      return;
-    }
-    if (senha !== confirmarSenha) {
-      Alert.alert("Atenção", "As senhas não coincidem.");
-      return;
-    }
+  // Retorna a mensagem do primeiro problema encontrado (ou "" se estiver tudo certo).
+  function validarFormulario(): string {
+    if (nome.trim().length < 3) return "Digite seu nome completo.";
+    if (!validarEmail(email)) return "Digite um e-mail válido.";
+    if (!validarCpf(cpf)) return "CPF inválido.";
+    if (!validarCelular(celular)) return "Celular inválido. Use DDD + número.";
+    if (senha.length < 6) return "A senha precisa ter no mínimo 6 caracteres.";
+    if (senha !== confirmarSenha) return "As senhas não conferem.";
+    return "";
+  }
 
-    router.push("/(private)/(tabs)");
-  };
+  async function handleCadastro() {
+    if (carregando) return;
+
+    const mensagem = validarFormulario();
+    setErro(mensagem);
+    if (mensagem) return;
+
+    try {
+      setCarregando(true);
+      await cadastrarUsuario({ nome, email, cpf, celular, senha });
+      router.replace("/(private)/(tabs)");
+    } catch (e) {
+      setErro(traduzirErro(e));
+    } finally {
+      setCarregando(false);
+    }
+  }
 
   return (
     <View
@@ -95,18 +97,13 @@ export default function CadastroScreen() {
             showsVerticalScrollIndicator={false}
           >
             <View style={styles.topBlock}>
-              <Pressable
-                style={styles.backButton}
-                onPress={() => router.push("/(public)/welcome")}
-              >
+              <Pressable style={styles.backButton} onPress={() => router.push("/(public)/welcome")}>
                 <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
               </Pressable>
 
               <View style={styles.header}>
                 <Text style={styles.title}>Criar conta</Text>
-                <Text style={styles.subtitle}>
-                  Cadastre-se no BoraCortar
-                </Text>
+                <Text style={styles.subtitle}>Cadastre-se no BoraCortar</Text>
               </View>
             </View>
 
@@ -116,22 +113,7 @@ export default function CadastroScreen() {
                 autoCapitalize="words"
                 value={nome}
                 onChangeText={setNome}
-              />
-
-              <AppTextInput
-                placeholder="CPF"
-                keyboardType="numeric"
-                value={cpf}
-                onChangeText={(t) => setCpf(maskCpf(t))}
-                maxLength={14}
-              />
-
-              <AppTextInput
-                placeholder="Celular"
-                keyboardType="phone-pad"
-                value={celular}
-                onChangeText={(t) => setCelular(maskCelular(t))}
-                maxLength={15}
+                editable={!carregando}
               />
 
               <AppTextInput
@@ -140,6 +122,25 @@ export default function CadastroScreen() {
                 autoCapitalize="none"
                 value={email}
                 onChangeText={setEmail}
+                editable={!carregando}
+              />
+
+              <AppTextInput
+                placeholder="CPF"
+                keyboardType="numeric"
+                maxLength={14}
+                value={cpf}
+                onChangeText={(texto) => setCpf(formatarCpf(texto))}
+                editable={!carregando}
+              />
+
+              <AppTextInput
+                placeholder="Celular"
+                keyboardType="phone-pad"
+                maxLength={15}
+                value={celular}
+                onChangeText={(texto) => setCelular(formatarCelular(texto))}
+                editable={!carregando}
               />
 
               <AppTextInput
@@ -147,6 +148,7 @@ export default function CadastroScreen() {
                 secureTextEntry
                 value={senha}
                 onChangeText={setSenha}
+                editable={!carregando}
               />
 
               <AppTextInput
@@ -154,15 +156,21 @@ export default function CadastroScreen() {
                 secureTextEntry
                 value={confirmarSenha}
                 onChangeText={setConfirmarSenha}
+                editable={!carregando}
               />
             </View>
 
             <View style={styles.bottomBlock}>
-              <AppButton label="Criar conta" onPress={handleCadastro} />
+              {erro !== "" && <Text style={styles.errorText}>{erro}</Text>}
+
+              <AppButton
+                label={carregando ? "Criando conta..." : "Criar conta"}
+                onPress={handleCadastro}
+              />
 
               <Pressable onPress={() => router.push("/(public)/login")}>
                 <Text style={styles.link}>
-                  Já tem conta?{" "}
+                  Ja tem conta?{" "}
                   <Text style={styles.linkHighlight}>Entrar</Text>
                 </Text>
               </Pressable>

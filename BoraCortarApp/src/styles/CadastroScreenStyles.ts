@@ -38,13 +38,18 @@ export const styles = StyleSheet.create({
   centerBlock: {
     flex: 1,
     justifyContent: "flex-start",
-    marginTop: 40, 
-    gap: 16,      
+    marginTop: 32,
+    gap: 16,
   },
   bottomBlock: {
     gap: 14,
     paddingBottom: 24,
     marginTop: 24,
+  },
+  errorText: {
+    color: "#FF6B6B",
+    fontSize: 14,
+    textAlign: "center",
   },
   link: {
     color: "rgba(255,255,255,0.7)",

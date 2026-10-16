@@ -1,5 +1,8 @@
 import { Ionicons } from "@expo/vector-icons"; // importa o conjunto de ícones
 import { Tabs } from "expo-router";
+import { Redirect, Stack } from "expo-router";
+import { useAuth } from "../../../contexts/AuthContext";
+
 
 export default function TabsLayout() {
   // cria o layout das abas

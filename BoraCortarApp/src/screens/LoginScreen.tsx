@@ -16,12 +16,40 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import AppButton from "@/components/AppButton";
 import AppTextInput from "@/components/AppTextInput";
+import { loginUsuario, traduzirErro } from "@/services/authService";
+import { validarEmail } from "@/utils/validators";
 import { styles } from "@/styles/LoginScreenStyles";
  
 export default function LoginScreen() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [erro, setErro] = useState("");
+  const [carregando, setCarregando] = useState(false);
+ 
+  async function handleLogin() {
+    if (carregando) return;
+ 
+    if (!validarEmail(email)) {
+      setErro("Digite um e-mail válido.");
+      return;
+    }
+    if (senha.length === 0) {
+      setErro("Digite sua senha.");
+      return;
+    }
+ 
+    try {
+      setErro("");
+      setCarregando(true);
+      await loginUsuario(email, senha);
+      router.replace("/(private)/(tabs)");
+    } catch (e) {
+      setErro(traduzirErro(e));
+    } finally {
+      setCarregando(false);
+    }
+  }
  
   return (
     <View
@@ -47,57 +75,62 @@ export default function LoginScreen() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-      <SafeAreaView style={styles.safeArea}>
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          keyboardShouldPersistTaps="handled"
-          showsVerticalScrollIndicator={false}
-        >
-          <View style={styles.topBlock}>
-            <Pressable style={styles.backButton} onPress={() => router.push("/(public)/welcome")}>
-              <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
-            </Pressable>
+        <SafeAreaView style={styles.safeArea}>
+          <ScrollView
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.topBlock}>
+              <Pressable
+                style={styles.backButton}
+                onPress={() => router.push("/(public)/welcome")}
+              >
+                <Ionicons name="arrow-back" size={24} color="#FFFFFF" />
+              </Pressable>
  
-            <View style={styles.header}>
-              <Text style={styles.title}>Entrar</Text>
-              <Text style={styles.subtitle}>Acesse sua conta BoraCortar</Text>
+              <View style={styles.header}>
+                <Text style={styles.title}>Entrar</Text>
+                <Text style={styles.subtitle}>Acesse sua conta BoraCortar</Text>
+              </View>
             </View>
-          </View>
  
-          <View style={styles.centerBlock}>
-            <AppTextInput
-              placeholder="E-mail"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              value={email}
-              onChangeText={setEmail}
-            />
+            <View style={styles.centerBlock}>
+              <AppTextInput
+                placeholder="E-mail"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
+                editable={!carregando}
+              />
  
-            <AppTextInput
-              placeholder="Senha"
-              secureTextEntry
-              value={senha}
-              onChangeText={setSenha}
-            />
-          </View>
+              <AppTextInput
+                placeholder="Senha"
+                secureTextEntry
+                value={senha}
+                onChangeText={setSenha}
+                editable={!carregando}
+              />
+            </View>
  
-          <View style={styles.bottomBlock}>
-            <AppButton
-              label="Entrar"
-              onPress={() => {
-                router.push("/(private)/(tabs)");
-              }}
-            />
+            <View style={styles.bottomBlock}>
+              {erro !== "" && <Text style={styles.errorText}>{erro}</Text>}
  
-            <Pressable onPress={() => router.push("/(public)/cadastro")}>
-              <Text style={styles.link}>
-                Nao tem conta?{" "}
-                <Text style={styles.linkHighlight}>Criar conta</Text>
-              </Text>
-            </Pressable>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+              <AppButton
+                label={carregando ? "Entrando..." : "Entrar"}
+                onPress={handleLogin}
+              />
+ 
+              <Pressable onPress={() => router.push("/(public)/cadastro")}>
+                <Text style={styles.link}>
+                  Nao tem conta?{" "}
+                  <Text style={styles.linkHighlight}>Criar conta</Text>
+                </Text>
+              </Pressable>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
       </KeyboardAvoidingView>
     </View>
   );

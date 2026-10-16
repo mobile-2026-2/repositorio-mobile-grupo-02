@@ -12,10 +12,15 @@ import { BarbeariaCard } from "@/components/Home/BarbeariaCard";
 import { ServicoCard } from "@/components/Home/ServicoCard";
 import { useHomeData } from "@/hooks/Home/useHomeDate";
 import { homeScreenStyles as styles } from "@/styles/Home/HomeScreen.styles";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { nomeUsuario, barbearias, servicos } = useHomeData();
+  const { user } = useAuth();
+  const { barbearias, servicos } = useHomeData();
+
+  // Primeiro nome de quem logou (displayName foi salvo no cadastro)
+  const nomeUsuario = user?.displayName?.split(" ")[0] ?? "";   
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
