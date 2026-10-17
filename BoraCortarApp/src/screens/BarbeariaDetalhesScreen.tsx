@@ -15,19 +15,19 @@ import { useBarbeariaDetalhes } from "@/hooks/BarbeariaDetalhes/useBarbeariaDeta
 import { useSelecaoServicos } from "@/hooks/BarbeariaDetalhes/useSelecaoServicos";
 import { barbeariaDetalhesScreenStyles as styles } from "@/styles/BarbeariaDetalhes/barbeariaDetalhesScreen.styles";
 import { AbaDetalhes } from "@/types/barbeariaDetalhes";
-import { apenasDigitos, formatarPreco } from "@/utils/detalhesFormatters";
-
+import { apenasDigitos } from "@/utils/detalhesFormatters";
+ 
 type Props = {
   id?: string;
 };
-
+ 
 export default function BarbeariaDetalhesScreen({ id }: Props) {
   const router = useRouter();
   const { barbearia, detalhes, servicos, avaliacoes } = useBarbeariaDetalhes(id);
   const selecao = useSelecaoServicos(servicos);
   const [aba, setAba] = useState<AbaDetalhes>("servicos");
   const [favorito, setFavorito] = useState(false);
-
+ 
   const voltar = () => {
     // Se a tela foi aberta direto (sem histórico), volta para a Home.
     if (router.canGoBack()) {
@@ -36,7 +36,7 @@ export default function BarbeariaDetalhesScreen({ id }: Props) {
       router.replace("/(private)/(tabs)");
     }
   };
-
+ 
   // Id inválido: mostra um aviso em vez de quebrar o app.
   if (!barbearia || !detalhes) {
     return (
@@ -50,48 +50,49 @@ export default function BarbeariaDetalhesScreen({ id }: Props) {
       </SafeAreaView>
     );
   }
-
+ 
   const ligar = () => {
     Linking.openURL(`tel:${apenasDigitos(detalhes.telefone)}`).catch(() =>
       Alert.alert("Ligar", "Não foi possível abrir o discador neste aparelho.")
     );
   };
-
+ 
   const abrirRota = () => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${barbearia.latitude},${barbearia.longitude}`;
     Linking.openURL(url).catch(() => Alert.alert("Rota", "Não foi possível abrir o mapa."));
   };
-
+ 
   const compartilhar = () => {
     Share.share({ message: `Conheça a ${barbearia.nome} no BoraCortar!` }).catch(() => {});
   };
-
+ 
+  // Abre a tela "Agendar serviço" levando a barbearia e os serviços escolhidos.
   const agendar = () => {
-    // TODO: levar para a tela de escolha de data/horário e, ao confirmar,
-    // chamar criarAgendamento() do agendamentosService (Firebase).
-    const lista = selecao.escolhidos.map((s) => `• ${s.nome} (${formatarPreco(s.preco)})`).join("\n");
-    Alert.alert(
-      "Agendar serviço",
-      `${lista}\n\nTotal: ${formatarPreco(selecao.total)}\n\nA escolha de data e horário será a próxima etapa.`
-    );
+    router.push({
+      pathname: "/(private)/agendar",
+      params: {
+        barbeariaId: barbearia.id,
+        servicos: selecao.escolhidos.map((s) => s.id).join(","),
+      },
+    });
   };
-
+ 
   return (
     <View style={styles.container}>
       <SafeAreaView edges={["top"]} style={styles.topo}>
         <DetalhesHeader titulo="Detalhes da barbearia" onVoltar={voltar} onCompartilhar={compartilhar} />
       </SafeAreaView>
-
+ 
       <ScrollView contentContainerStyle={styles.conteudo} showsVerticalScrollIndicator={false}>
         <BarbeariaCapa capa={detalhes.capa} logo={detalhes.logo} />
-
+ 
         <BarbeariaResumo
           nome={barbearia.nome}
           nota={barbearia.nota}
           totalAvaliacoes={detalhes.totalAvaliacoes}
           fechaAs={barbearia.fechaAs}
         />
-
+ 
         <AcoesRapidas
           favorito={favorito}
           onLigar={ligar}
@@ -99,16 +100,16 @@ export default function BarbeariaDetalhesScreen({ id }: Props) {
           onFavoritar={() => setFavorito((atual) => !atual)}
           onCompartilhar={compartilhar}
         />
-
+ 
         <AbasDetalhes atual={aba} onChange={setAba} />
-
+ 
         {aba === "servicos" && (
           <AbaServicos servicos={servicos} selecionados={selecao.selecionados} onAlternar={selecao.alternar} />
         )}
         {aba === "informacoes" && <AbaInformacoes detalhes={detalhes} />}
         {aba === "avaliacoes" && <AbaAvaliacoes avaliacoes={avaliacoes} />}
       </ScrollView>
-
+ 
       <AgendarBar quantidade={selecao.quantidade} total={selecao.total} onPress={agendar} />
     </View>
   );

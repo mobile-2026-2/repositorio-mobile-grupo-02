@@ -6,7 +6,7 @@ import { detalhesHeaderStyles as styles } from "@/styles/BarbeariaDetalhes/detal
 type Props = {
   titulo: string;
   onVoltar: () => void;
-  onCompartilhar: () => void;
+  onCompartilhar?: () => void; // sem ela, o botão de compartilhar some
 };
  
 export function DetalhesHeader({ titulo, onVoltar, onCompartilhar }: Props) {
@@ -20,9 +20,14 @@ export function DetalhesHeader({ titulo, onVoltar, onCompartilhar }: Props) {
         {titulo}
       </Text>
  
-      <Pressable style={styles.botao} onPress={onCompartilhar} accessibilityLabel="Compartilhar">
-        <Ionicons name="share-outline" size={22} color="#111111" />
-      </Pressable>
+      {onCompartilhar ? (
+        <Pressable style={styles.botao} onPress={onCompartilhar} accessibilityLabel="Compartilhar">
+          <Ionicons name="share-outline" size={22} color="#111111" />
+        </Pressable>
+      ) : (
+        // Espaço vazio do mesmo tamanho, para o título continuar centralizado.
+        <View style={styles.botao} />
+      )}
     </View>
   );
 }

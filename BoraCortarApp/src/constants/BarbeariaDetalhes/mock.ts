@@ -19,8 +19,6 @@ export const DETALHES_MOCK: Record<string, DetalhesBarbearia> = {
     ],
     capa: require("../../../assets/images/barbearias/capa-old-school.jpg"),
     logo: require("../../../assets/images/barbearias/old-school-barber.jpg"),
-    // capa: require("../../../assets/images/barbearias/old-school-capa.jpg"),
-    // logo: require("../../../assets/images/barbearias/old-school-logo.png"),
   },
   "2": {
     telefone: "(21) 99999-0002",

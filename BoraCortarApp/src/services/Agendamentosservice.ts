@@ -12,11 +12,12 @@ import {
 import { auth, db } from "./firebase";
 import type { AgendamentoDoc, BarbeariaDoc, ServicoDoc } from "./database.types";
  
-/** Botao "Agendar servico" da tela de detalhes. */
+/** Botao "Confirmar agendamento" da tela de agendar. */
 export async function criarAgendamento(
   barbearia: Pick<BarbeariaDoc, "id" | "nome">,
   servico: ServicoDoc,
-  data: Date
+  data: Date,
+  profissional?: { id: string; nome: string }
 ): Promise<string> {
   const usuario = auth.currentUser;
   if (!usuario) throw new Error("Você precisa estar logado para agendar.");
@@ -29,6 +30,11 @@ export async function criarAgendamento(
     servicoNome: servico.nome,
     preco: servico.preco,
     duracaoMin: servico.duracaoMin,
+    // O Firestore nao aceita "undefined": so inclui se houver profissional.
+    ...(profissional && {
+      profissionalId: profissional.id,
+      profissionalNome: profissional.nome,
+    }),
     data: Timestamp.fromDate(data),
     status: "pendente",
     criadoEm: serverTimestamp(),

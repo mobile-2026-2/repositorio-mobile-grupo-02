@@ -52,6 +52,8 @@ export type AgendamentoDoc = {
   servicoNome: string;
   preco: number;
   duracaoMin: number;
+  profissionalId?: string;
+  profissionalNome?: string;
   data: Timestamp;
   status: StatusAgendamento;
   criadoEm: Timestamp;
