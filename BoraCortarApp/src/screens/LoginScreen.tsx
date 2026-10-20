@@ -40,9 +40,7 @@ export default function LoginScreen() {
  
           <AppButton
             label="Entrar"
-            onPress={() => {
-              // TODO: chamar a API/autenticacao aqui
-            }}
+            onPress={() => router.replace("/(private)/(tabs)")}
           />
  
           <Pressable onPress={() => router.push("/(public)/cadastro")}>
