@@ -6,7 +6,9 @@ import type { Timestamp } from "firebase/firestore";
   users/{uid}                          -> dados do cliente (uid = id do Firebase Auth)
   barbearias/{barbeariaId}             -> catalogo de barbearias (somente leitura no app)
   barbearias/{barbeariaId}/servicos/{servicoId}  -> servicos oferecidos por cada barbearia
-  agendamentos/{agendamentoId}         -> reservas feitas pelos clientes
+  agendamentos/{agendamentoId}         -> reservas feitas pelos clientes (privado de cada cliente)
+  filas/{barbeariaId}/entradas/{agendamentoId}   -> fila de espera da barbearia (visivel a todos os
+                                          logados; guarda so primeiro nome + servico, nunca dados pessoais)
  
   A senha NUNCA fica no Firestore: quem guarda e protege a senha e o Firebase Auth.
 */
@@ -54,6 +56,16 @@ export type AgendamentoDoc = {
   duracaoMin: number;
   profissionalId?: string;
   profissionalNome?: string;
+  data: Timestamp;
+  status: StatusAgendamento;
+  criadoEm: Timestamp;
+};
+ 
+/** Uma pessoa na fila da barbearia. O id do documento = id do agendamento. */
+export type EntradaFilaDoc = {
+  primeiroNome: string;
+  servicoNome: string;
+  duracaoMin: number;
   data: Timestamp;
   status: StatusAgendamento;
   criadoEm: Timestamp;
