@@ -25,7 +25,11 @@ export default function TabsLayout() {
       />
 
       <Tabs.Screen
+<<<<<<< HEAD
         name="  Explorar" // rota da tela inicial
+=======
+        name="Explorar" // rota da tela inicial
+>>>>>>> 2fd9b19198728af4a8eb197a2d4f7ebc41c78a28
         options={{
           title: "Explorar", // texto exibido na aba
           tabBarIcon: (
