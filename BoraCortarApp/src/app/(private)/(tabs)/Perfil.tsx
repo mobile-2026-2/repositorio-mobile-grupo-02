@@ -1,6 +1,5 @@
-import React from "react";
-import PerfilScreen from "../../../screens/PerfilScreen";
+import ProfileScreen from "@/screens/ProfileScreen";
 
-export default function Index() {
-  return React.createElement(PerfilScreen);
+export default function Perfil() {
+  return <ProfileScreen />;
 }
