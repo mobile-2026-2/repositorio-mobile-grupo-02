@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, Alert, Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, RefreshControl, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter, type Href } from "expo-router";
 import { DetalhesHeader } from "@/components/BarbeariaDetalhes/DetalhesHeader";
@@ -9,6 +9,7 @@ import { useMeusAgendamentos } from "@/hooks/MeusAgendamentos/useMeusAgendamento
 import { traduzirErro } from "@/services/authService";
 import type { AgendamentoDoc } from "@/services/database.types";
 import { agendamentosScreenStyles as styles } from "@/styles/MeusAgendamentos/agendamentosScreen.styles";
+import { mostrarAviso, pedirConfirmacao } from "@/utils/dialogs";
 import { formatarDataCompleta } from "@/utils/meusAgendamentosFormatters";
  
 export default function AgendamentosScreen() {
@@ -30,24 +31,19 @@ export default function AgendamentosScreen() {
   };
  
   const cancelar = (agendamento: AgendamentoDoc) => {
-    Alert.alert(
-      "Cancelar agendamento",
-      `Deseja cancelar ${agendamento.servicoNome} em ${formatarDataCompleta(agendamento.data.toDate())}?`,
-      [
-        { text: "Voltar", style: "cancel" },
-        {
-          text: "Cancelar agendamento",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              await meus.cancelar(agendamento);
-            } catch (erro) {
-              Alert.alert("Não foi possível cancelar", traduzirErro(erro));
-            }
-          },
-        },
-      ]
-    );
+    pedirConfirmacao({
+      titulo: "Cancelar agendamento",
+      mensagem: `Deseja cancelar ${agendamento.servicoNome} em ${formatarDataCompleta(agendamento.data.toDate())}?`,
+      textoConfirmar: "Cancelar agendamento",
+      destrutivo: true,
+      aoConfirmar: async () => {
+        try {
+          await meus.cancelar(agendamento);
+        } catch (erro) {
+          mostrarAviso("Não foi possível cancelar", traduzirErro(erro));
+        }
+      },
+    });
   };
  
   return (

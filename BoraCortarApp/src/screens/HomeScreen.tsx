@@ -3,10 +3,10 @@ import { ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
  
-import { HomeHeader } from "@/components/Home/HomeHeader";
+import { HomeHeader } from "../components/Home/HomeHeader";
 import { SearchBar } from "@/components/Home/SearchBar";
 import { SectionHeader } from "@/components/Home/SectionHeader";
-import { NearbyMap } from "@/components/Home/NearbyMap";
+import { NearbyMap } from "@/components/Home/NearbyMapSwitch";
 import { HorizontalList } from "@/components/Home/HorizontalList";
 import { BarbeariaCard } from "@/components/Home/BarbeariaCard";
 import { ServicoCard } from "@/components/Home/ServicoCard";

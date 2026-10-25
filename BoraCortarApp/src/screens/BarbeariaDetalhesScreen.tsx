@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Linking, Pressable, ScrollView, Share, Text, View } from "react-native";
+import { Linking, Pressable, ScrollView, Share, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { AbaAvaliacoes } from "@/components/BarbeariaDetalhes/AbaAvaliacoes";
@@ -15,6 +15,7 @@ import { useBarbeariaDetalhes } from "@/hooks/BarbeariaDetalhes/useBarbeariaDeta
 import { useSelecaoServicos } from "@/hooks/BarbeariaDetalhes/useSelecaoServicos";
 import { barbeariaDetalhesScreenStyles as styles } from "@/styles/BarbeariaDetalhes/barbeariaDetalhesScreen.styles";
 import { AbaDetalhes } from "@/types/barbeariaDetalhes";
+import { mostrarAviso } from "@/utils/dialogs";
 import { apenasDigitos } from "@/utils/detalhesFormatters";
  
 type Props = {
@@ -53,13 +54,13 @@ export default function BarbeariaDetalhesScreen({ id }: Props) {
  
   const ligar = () => {
     Linking.openURL(`tel:${apenasDigitos(detalhes.telefone)}`).catch(() =>
-      Alert.alert("Ligar", "Não foi possível abrir o discador neste aparelho.")
+      mostrarAviso("Ligar", "Não foi possível abrir o discador neste aparelho.")
     );
   };
  
   const abrirRota = () => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${barbearia.latitude},${barbearia.longitude}`;
-    Linking.openURL(url).catch(() => Alert.alert("Rota", "Não foi possível abrir o mapa."));
+    Linking.openURL(url).catch(() => mostrarAviso("Rota", "Não foi possível abrir o mapa."));
   };
  
   const compartilhar = () => {

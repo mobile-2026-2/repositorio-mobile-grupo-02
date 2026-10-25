@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { ConfirmarAgendamentoBar } from "@/components/Agendamento/ConfirmarAgendamentoBar";
@@ -15,6 +15,7 @@ import { criarAgendamento } from "@/services/Agendamentosservice";
 import { traduzirErro } from "@/services/authService";
 import { agendarServicoScreenStyles as styles } from "@/styles/Agendamento/agendarServicoScreen.styles";
 import { formatarDataHora, resumirServicos } from "@/utils/agendamentoFormatters";
+import { mostrarAviso } from "@/utils/dialogs";
  
 type Props = {
   barbeariaId?: string;
@@ -65,15 +66,15 @@ export default function AgendarServicoScreen({ barbeariaId, servicosIds = [] }: 
         { id: agendamento.profissional.id, nome: agendamento.profissional.nome }
       );
  
-      Alert.alert(
+      mostrarAviso(
         "Agendamento confirmado",
         `${resumo.nome}\n${agendamento.profissional.nome} • ${formatarDataHora(agendamento.dataHora)}`,
-        [{ text: "OK", onPress: () => router.replace("/(private)/(tabs)/Agendamentos") }]
+        () => router.replace("/(private)/(tabs)/Agendamentos")
       );
     } catch (erro) {
       const temCodigo = Boolean((erro as { code?: string })?.code);
       const mensagem = !temCodigo && erro instanceof Error ? erro.message : traduzirErro(erro);
-      Alert.alert("Não foi possível agendar", mensagem);
+      mostrarAviso("Não foi possível agendar", mensagem);
     } finally {
       setEnviando(false);
     }

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { ScrollView, View, Text, Pressable, Alert } from "react-native";
+import { ScrollView, View, Text, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { usePerfil } from "@/hooks/Perfil/usePerfil";
 import { logoutUsuario } from "@/services/authService";
 import { styles } from "@/styles/Perfil/ProfileScreenStyles";
+import { mostrarAviso } from "@/utils/dialogs";
  
 // Opções do menu separadas do JSX para facilitar a manutenção
 const OPTIONS = [
@@ -33,7 +34,7 @@ export default function ProfileScreen() {
       await logoutUsuario(); // encerra a sessão no Firebase
       router.replace("/(public)/welcome");
     } catch {
-      Alert.alert("Erro", "Não foi possível sair da conta. Tente novamente.");
+      mostrarAviso("Erro", "Não foi possível sair da conta. Tente novamente.");
       setSaindo(false);
     }
   }
