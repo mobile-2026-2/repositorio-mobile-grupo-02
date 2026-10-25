@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ScrollView, View, Text, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { useRouter, type Href } from "expo-router";
 import { usePerfil } from "@/hooks/Perfil/usePerfil";
 import { logoutUsuario } from "@/services/authService";
 import { styles } from "@/styles/Perfil/ProfileScreenStyles";
@@ -17,14 +17,22 @@ const OPTIONS = [
   { key: "sobre", label: "Sobre o app", icon: "information-circle-outline" },
 ] as const;
  
+// Tela que cada opção do menu abre (arquivos em app/(private)/conta/)
+const ROTAS: Record<(typeof OPTIONS)[number]["key"], string> = {
+  dados: "/(private)/conta/dados",
+  pagamento: "/(private)/conta/pagamento",
+  notificacoes: "/(private)/conta/notificacoes",
+  ajuda: "/(private)/conta/ajuda",
+  sobre: "/(private)/conta/sobre",
+};
+ 
 export default function ProfileScreen() {
   const router = useRouter();
   const { nome, email } = usePerfil();
   const [saindo, setSaindo] = useState(false);
  
-  function handleOptionPress(key: string) {
-    // TODO: navegar para a tela de cada opção
-    console.log("Opção pressionada:", key);
+  function handleOptionPress(key: (typeof OPTIONS)[number]["key"]) {
+    router.push(ROTAS[key] as Href);
   }
  
   async function handleLogout() {
