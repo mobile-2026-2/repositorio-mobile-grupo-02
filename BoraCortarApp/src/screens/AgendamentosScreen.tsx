@@ -24,10 +24,9 @@ export default function AgendamentosScreen() {
  
   // Abre a tela de fila de espera da barbearia desse agendamento.
   const verFila = (agendamento: AgendamentoDoc) => {
-    router.push({
-      pathname: "/(private)/fila" as Href,
-      params: { agendamentoId: agendamento.id },
-    });
+    router.push(
+      `/(private)/fila?agendamentoId=${encodeURIComponent(agendamento.id)}` as Href
+    );
   };
  
   const cancelar = (agendamento: AgendamentoDoc) => {

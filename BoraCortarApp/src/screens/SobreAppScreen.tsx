@@ -1,10 +1,9 @@
-import React from "react";
-import { Text, View } from "react-native";
-import Constants from "expo-constants";
-import { Ionicons } from "@expo/vector-icons";
 import { ItemInformacao } from "@/components/Conta/ItemInformacao";
 import { TelaConta } from "@/components/Conta/TelaConta";
 import { contaScreenStyles as styles } from "@/styles/Conta/contaScreens.styles";
+import Constants from "expo-constants";
+import { Image } from "expo-image";
+import { Text, View } from "react-native";
  
 export default function SobreAppScreen() {
   const versao = Constants.expoConfig?.version ?? "1.0.0";
@@ -13,7 +12,11 @@ export default function SobreAppScreen() {
     <TelaConta titulo="Sobre o app">
       <View style={styles.sobreTopo}>
         <View style={styles.sobreLogo}>
-          <Ionicons name="cut-outline" size={40} color="#FFFFFF" />
+          <Image
+            source={require("../../assets/images/Logo/Logo2.jpg")}
+            style={styles.sobreLogoImagem}
+            contentFit="cover"
+          />
         </View>
         <Text style={styles.sobreNome}>BoraCortar</Text>
         <Text style={styles.sobreVersao}>Versão {versao}</Text>

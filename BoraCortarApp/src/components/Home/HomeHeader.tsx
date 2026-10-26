@@ -1,19 +1,19 @@
 import React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colors } from "@/constants/theme";
 import { homeHeaderStyles as styles } from "@/styles/Home/homeHeader.styles";
-
+ 
 type Props = {
   nomeUsuario: string;
-  temNotificacao?: boolean;
-  onNotificacaoPress?: () => void;
+  temNotificacoesNovas?: boolean; // mostra o pontinho vermelho no sino
+  onNotificacoesPress?: () => void; // toque no sino (abre o painel)
 };
-
+ 
 export function HomeHeader({
   nomeUsuario,
-  temNotificacao = true,
-  onNotificacaoPress,
+  temNotificacoesNovas = false,
+  onNotificacoesPress,
 }: Props) {
   return (
     <View style={styles.container}>
@@ -23,10 +23,16 @@ export function HomeHeader({
           Encontre a melhor barbearia perto de você.
         </Text>
       </View>
-
-      <Pressable style={styles.sino} hitSlop={8} onPress={onNotificacaoPress}>
+ 
+      <Pressable
+        style={styles.sino}
+        hitSlop={8}
+        onPress={onNotificacoesPress}
+        accessibilityRole="button"
+        accessibilityLabel="Notificações"
+      >
         <Ionicons name="notifications-outline" size={26} color={colors.textPrimary} />
-        {temNotificacao && <View style={styles.badge} />}
+        {temNotificacoesNovas && <View style={styles.badge} />}
       </Pressable>
     </View>
   );

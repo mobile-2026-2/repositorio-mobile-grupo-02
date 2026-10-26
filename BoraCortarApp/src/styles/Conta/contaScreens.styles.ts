@@ -43,13 +43,15 @@ export const contaScreenStyles = StyleSheet.create({
     marginBottom: 24,
   },
   sobreLogo: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    backgroundColor: "#111111",
-    alignItems: "center",
-    justifyContent: "center",
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    overflow: "hidden", // recorta a logo em círculo
     marginBottom: 8,
+  },
+  sobreLogoImagem: {
+    width: "100%",
+    height: "100%",
   },
   sobreNome: {
     fontSize: 24,

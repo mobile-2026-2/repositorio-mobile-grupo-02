@@ -28,7 +28,7 @@ export default function WelcomeScreen() {
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.logoBlock}>
           <Image
-            source={require("../../assets/images/LogoImage.png")}
+            source={require("../../assets/images/Logo/Logo.png")}
             style={styles.logoImage}
           />
  
